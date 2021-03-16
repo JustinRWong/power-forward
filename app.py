@@ -40,6 +40,7 @@ app = create_app({
 
 @app.route('/')
 def index():
+    analytics(request)
     return render_template('index.html', title='Home')
 
 @app.route('/__healthcheck__', methods=['GET', 'POST'])
@@ -49,6 +50,7 @@ def health_check():
     GET: returns time time of server receiving request.
     POST: echos parameters and data passeed by request.
     '''
+    analytics(request)
     ## Query parameter argumeents
     query_string_params = request.args
 
@@ -96,7 +98,7 @@ def discord():
 
     if request.method == 'GET':
         return render_template('discord.html', title='Discord messaging')
-
+    analytics(request)
     if request.method == 'POST':
         ## extract username and message from form
         username = request.form['username']
@@ -112,6 +114,7 @@ def discord():
 
 @app.errorhandler(500)
 def server_error(e):
+    analytics(request)
     logging.exception("Error :/")
     return """
     Idk, server error :/
