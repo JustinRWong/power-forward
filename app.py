@@ -40,7 +40,6 @@ app = create_app({
 
 @app.route('/')
 def index():
-    analytics(request)
     return render_template('index.html', title='Home')
 
 @app.route('/__healthcheck__', methods=['GET', 'POST'])
@@ -73,10 +72,12 @@ def health_check():
 
 @app.route('/team')
 def display_team():
+    analytics(request)
     return render_template('team.html', title='Team')
 
 @app.route('/map')
 def display_map():
+    analytics(request)
     return render_template('map.html', title='Map')
 
 @app.route('/discord', methods=['GET', 'POST'])
@@ -95,6 +96,7 @@ def discord():
 
     if request.method == 'GET':
         return render_template('discord.html', title='Discord messaging')
+
     if request.method == 'POST':
         ## extract username and message from form
         username = request.form['username']
@@ -110,7 +112,6 @@ def discord():
 
 @app.errorhandler(500)
 def server_error(e):
-    analytics(request)
     logging.exception("Error :/")
     return """
     Idk, server error :/
