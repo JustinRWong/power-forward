@@ -4,12 +4,31 @@
 
 {% block content %}
 
-<container>
+<div class='container'>
   <div class='row'>
     <div class='col'>
       <span> We use machine learning to help governments and mobility companies optimally place new EV charging stations.</span>
     </div>
   </div>
-</container>
+
+  <div class='row'>
+    <div class='col'>
+      <span> Check out our recent work!</span>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col'>
+      <img src="{{url_for('static', filename='images/ca_ev_stations.png')}}" alt="EV Staitons Plot" class="img-responsive">
+    </div>
+
+    <div class='col'>
+      <img src="{{url_for('static', filename='images/log_ca_ev_stations.png')}}" alt="EV Staitons Plot" class="img-responsive">
+    </div>
+
+    <div class='col'>
+      <img src="{{url_for('static', filename='images/ca_ev_desert.png')}}" alt="EV Staitons Plot" class="img-responsive">
+    </div>
+  </div>
+</div>
 
 {% endblock %}
