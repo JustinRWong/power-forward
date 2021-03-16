@@ -11,6 +11,7 @@ importlib-metadata==3.7.3
 itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
+PyYAML==5.4.1
 requests==2.25.1
 SQLAlchemy==1.4.0
 typing-extensions==3.7.4.3
