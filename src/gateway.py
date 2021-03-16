@@ -39,7 +39,7 @@ def analytics(req):
                         "User Agent": device }
     content_str = "GOT A VISITOR!"
     for k, v in content_dict.items():
-        content_str = content_str + "\n  > {k}:{v}".format(k=k, v=v)
+        content_str = content_str + "\n  > {k}: {v}".format(k=k, v=v)
 
     payload = {
         'username': "Power Forward App Analytics :)",

@@ -50,7 +50,6 @@ def health_check():
     GET: returns time time of server receiving request.
     POST: echos parameters and data passeed by request.
     '''
-    analytics(request)
     ## Query parameter argumeents
     query_string_params = request.args
 
@@ -74,12 +73,10 @@ def health_check():
 
 @app.route('/team')
 def display_team():
-    analytics(request)
     return render_template('team.html', title='Team')
 
 @app.route('/map')
 def display_map():
-    analytics(request)
     return render_template('map.html', title='Map')
 
 @app.route('/discord', methods=['GET', 'POST'])
@@ -98,7 +95,6 @@ def discord():
 
     if request.method == 'GET':
         return render_template('discord.html', title='Discord messaging')
-    analytics(request)
     if request.method == 'POST':
         ## extract username and message from form
         username = request.form['username']
