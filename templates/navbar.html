@@ -1,0 +1,11 @@
+{% block navbar %}
+<div class="topnav" id="myTopnav">
+
+    <a href="{{ url_for('index') }}" class="active">Home</a>
+    <a href="{{ url_for('health_check') }}" class="active">Health Check</a>
+    <a href="{{ url_for('display_map') }}" class="active">Map</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+</div>
+{% endblock %}
