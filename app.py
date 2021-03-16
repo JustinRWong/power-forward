@@ -45,6 +45,10 @@ def health_check():
                                 ttr={'time of response': time.time(), 'date': datetime.now()},
                                 echo=posted)
 
+@app.route('/team')
+def display_team():
+    return render_template('team.html', title='Team')
+
 @app.route('/map')
 def display_map():
     return render_template('map.html', title='Map')

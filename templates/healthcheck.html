@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% block title %}Healtcheck{% endblock %}
+
 {% block content %}
-<h3>{% block title %}Healthcheck{% endblock %}</h3>
+<h3>Used to makes sure our site is up and running!</h3>
 <h4>Response:</h4>
-{{ ttr }}
+
 
 <p>This endpoint will echo your parameters and data. Try making post calls to this endpoint. You will bee echoed below.</p>
 <form method="POST" action="{{ url_for('health_check') }}">
