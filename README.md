@@ -1,6 +1,9 @@
 # Power Forward
 
-Team 19 for Data X
+## Team 19 for Data X
+
+### Contributors
+Casey McGonigle, Ivy Bragin, Mickey Piekarski, Justin Wong,  Sammy Sheldon, Seth Bloomer
 
 ## Starting the Virtual Environment
 
@@ -33,4 +36,4 @@ pip install requirements.txt
 ```
 
 ### Live (Production)
-Visit http://power-forward.herokuapp.com/
+[Visit our app!](http://power-forward.herokuapp.com/)
