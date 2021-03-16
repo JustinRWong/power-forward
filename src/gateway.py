@@ -31,7 +31,12 @@ def analytics(req):
     '''
     Analytics collector that gets sent directly to our discord channel.
     '''
-    ip_address = req.remote_addr
+    ## get around mulitple proxies
+    if request.headers.getlist("X-Forwarded-For"):
+       ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+       ip = request.remote_addr
+    ip_address = ip
     url = req.url
     device = req.headers.get('User-Agent')
     content_dict = {    "Requester IP": ip_address,

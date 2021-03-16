@@ -8,7 +8,7 @@ import yaml
 
 from src.gateway import *
 from src.models.shared import *
-
+from src.models.saferproxyfix import SaferProxyFix
 '''
 App setup
 '''
@@ -21,6 +21,8 @@ def create_app(config=None):
         elif config.endswith('.py'):
             app.config.from_pyfile(config)
     # setup_app(app)
+
+    # app.wsgi_app = SaferProxyFix(app.wsgi_app) # may not be needed
     return app
 
 # def setup_app(app):
