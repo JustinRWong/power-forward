@@ -39,8 +39,10 @@ def analytics(req):
     ip_address = ip
     url = req.url
     device = req.headers.get('User-Agent')
-    content_dict = {    "Requester IP": ip_address,
-                        "URL visited": url,
+    current_time = datetime.now()
+    content_dict = {    "Visit Time":  current_time,
+                        "Requester IP": ip_address,
+                        "URL Visited": url,
                         "User Agent": device }
     content_str = "GOT A VISITOR!"
     for k, v in content_dict.items():
