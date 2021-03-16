@@ -9,6 +9,9 @@ import yaml
 from src.gateway import *
 from src.models.shared import *
 
+'''
+App setup
+'''
 def create_app(config=None):
     app = Flask(__name__)
     # load app sepcified configuration
@@ -37,10 +40,11 @@ app = create_app({
     # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
 })
 
-
+'''
+App Routes
+'''
 @app.route('/')
 def index():
-    analytics(request)
     return render_template('index.html', title='Home')
 
 @app.route('/__healthcheck__', methods=['GET', 'POST'])
@@ -50,7 +54,6 @@ def health_check():
     GET: returns time time of server receiving request.
     POST: echos parameters and data passeed by request.
     '''
-    analytics(request)
     ## Query parameter argumeents
     query_string_params = request.args
 
@@ -74,12 +77,10 @@ def health_check():
 
 @app.route('/team')
 def display_team():
-    analytics(request)
     return render_template('team.html', title='Team')
 
 @app.route('/map')
 def display_map():
-    analytics(request)
     return render_template('map.html', title='Map')
 
 @app.route('/discord', methods=['GET', 'POST'])
@@ -98,7 +99,6 @@ def discord():
 
     if request.method == 'GET':
         return render_template('discord.html', title='Discord messaging')
-    analytics(request)
     if request.method == 'POST':
         ## extract username and message from form
         username = request.form['username']
@@ -112,9 +112,17 @@ def discord():
         send_to_discord(payload)
         return "pshed"
 
+'''
+Edge
+'''
+@app.before_request
+def before_request_func():
+    if "people" not in request.url:
+        analytics(request)
+
+
 @app.errorhandler(500)
 def server_error(e):
-    analytics(request)
     logging.exception("Error :/")
     return """
     Idk, server error :/
