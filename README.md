@@ -41,5 +41,8 @@ pip install requirements.txt
 [Visit our app!](http://power-forward.herokuapp.com/)
 
 
+### Analytics
+We have analytics such that when any page is loaded, we get ip address, the url visited, and device information sent to our discord channel. This is done in the `src/gateway.py: analytics(req)`
+
 ## References
 -
