@@ -1,6 +1,6 @@
 # Power Forward
 
-https://www.travis-ci.com/JustinRWong/power-forward.svg?token=PypfBCP6DVTswgKuxbJa&branch=main
+[![Bulid Status](https://www.travis-ci.com/JustinRWong/power-forward.svg?token=PypfBCP6DVTswgKuxbJa&branch=main)
 
 ## Team 19 for Data X
 
