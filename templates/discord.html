@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<div class='container'>
+
+<form method="POST" action="{{url_for('discord' )}}" align="center"  id="discord_form">
+    <div class="border">
+
+      <div clas='row'>
+        <input type='text' id='username' name='username', placeholder='username'>
+      </div>
+
+      <div clas='row'>
+        <input type='text' id='message' name='message', placeholder='message'>
+      </div>
+
+        <div class='col'>
+          <button type="submit" id="submit" value="Submit">Process Transaction</button>
+        </div>
+    </div>
+</form>
+
+
+</div>
+
+{% endblock %}
