@@ -9,6 +9,7 @@ import yaml
 from src.gateway import *
 from src.models.shared import *
 from src.models.saferproxyfix import SaferProxyFix
+from vars import *
 '''
 App setup
 '''
@@ -20,26 +21,26 @@ def create_app(config=None):
             app.config.update(config)
         elif config.endswith('.py'):
             app.config.from_pyfile(config)
-    # setup_app(app)
+
+    setup_app(app)
 
     # app.wsgi_app = SaferProxyFix(app.wsgi_app) # may not be needed
     return app
 
-# def setup_app(app):
+def setup_app(app):
     # Create tables if they do not exist already
-    # @app.before_first_request
-    # def create_tables():
-    #     db.create_all()
+    @app.before_first_request
+    def create_tables():
+        db.create_all()
 
     # session = flask_scoped_session(session_factory, app)
-    # db.init_app(app)
-    # config_oauth(app)
-    # app.register_blueprint(bp, url_prefix='')
+    db.init_app(app)
+
 
 app = create_app({
-    'SECRET_KEY': 'secret',
+    'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
-    # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
+
 })
 
 '''
@@ -121,7 +122,7 @@ Edge
 def before_request_func():
     is_not_image_people_request = "people" not in request.url
     is_not_discordbot_request = "Discordbot" not in request.headers.get('User-Agent')
-    if is_not_image_people_request and is_not_discordbot_request:
+    if is_not_image_people_request and is_not_discordbot_request and NOTIFY_DISCORD:
         analytics(request)
 
 

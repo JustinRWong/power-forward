@@ -3,6 +3,7 @@ import requests, os
 import json, time, hashlib
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
+from vars import *
 
 def validate_PF_API_token(headers):
     pf_token = headers.get('X-POWER-FORWARD-TOKEN')
@@ -19,7 +20,7 @@ def send_to_discord(payload):
     `username` and `content` must be defined.
     '''
     ## relay message to discord channel via webook
-    url = os.environ.get('DISCORD_WEBHOOK')
+    url = DISCORD_WEBHOOK
     if url:
         print('FOUND WEWBHOOK')
         print(url)

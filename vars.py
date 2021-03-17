@@ -1,0 +1,6 @@
+import os
+
+
+DISCORD_WEBHOOK = os.environ.get('DISCORD_WEBHOOK')
+DB_CONNECTION_STRING = os.environ.get('DATABASE_URL')
+NOTIFY_DISCORD = False
