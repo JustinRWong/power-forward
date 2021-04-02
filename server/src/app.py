@@ -6,13 +6,13 @@ import os
 import requests
 import yaml
 
-from src.gateway import *
-from src.models.shared import *
-from src.models.saferproxyfix import SaferProxyFix
+from gateway import *
+from models.shared import *
+from models.saferproxyfix import SaferProxyFix
 '''
 App setup
 '''
-def create_app(config=None):
+def create_app(app, config=None):
     # load app sepcified configuration
     if config is not None:
         if isinstance(config, dict):
@@ -37,7 +37,7 @@ def create_app(config=None):
 app = Flask(__name__)
 if __name__ == '__main__':
     ## setup app
-    app = create_app({
+    app = create_app(app, {
         'SECRET_KEY': 'secret',
         'SQLALCHEMY_TRACK_MODIFICATIONS': True,
         # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
