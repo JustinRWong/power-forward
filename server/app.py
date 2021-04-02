@@ -13,7 +13,6 @@ from src.models.saferproxyfix import SaferProxyFix
 App setup
 '''
 def create_app(config=None):
-    app = Flask(__name__)
     # load app sepcified configuration
     if config is not None:
         if isinstance(config, dict):
@@ -35,12 +34,17 @@ def create_app(config=None):
     # db.init_app(app)
     # config_oauth(app)
     # app.register_blueprint(bp, url_prefix='')
+app = Flask(__name__)
+if __name__ == '__main__':
+    ## setup app
+    app = create_app({
+        'SECRET_KEY': 'secret',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': True,
+        # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
+    })
+    ## run web server
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
 
-app = create_app({
-    'SECRET_KEY': 'secret',
-    'SQLALCHEMY_TRACK_MODIFICATIONS': True,
-    # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
-})
 
 '''
 App Routes
