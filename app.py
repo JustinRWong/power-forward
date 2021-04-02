@@ -9,7 +9,7 @@ import yaml
 from src.gateway import *
 from src.models.shared import *
 from src.models.saferproxyfix import SaferProxyFix
-from vars import *
+
 '''
 App setup
 '''
@@ -28,19 +28,19 @@ def create_app(config=None):
     return app
 
 def setup_app(app):
+    db.init_app(app)
     # Create tables if they do not exist already
     @app.before_first_request
     def create_tables():
         db.create_all()
 
     # session = flask_scoped_session(session_factory, app)
-    db.init_app(app)
+
 
 
 app = create_app({
     'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
-
 })
 
 '''
