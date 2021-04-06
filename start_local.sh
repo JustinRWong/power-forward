@@ -1,1 +1,1 @@
-FLASK_ENV=development cd server && flask run
+FLASK_ENV=development cd server/src && flask run

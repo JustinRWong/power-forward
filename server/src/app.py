@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, abort, jsonify, render_template, session
+from flask import Flask, Response, request, abort, jsonify, render_template, make_response, session
 import json
 import logging
 import os
@@ -51,7 +51,10 @@ App Routes
 '''
 @app.route('/')
 def index():
-    return render_template('index.html', title='Home')
+    template = render_template('index.html', title='Home')
+    response = make_response(template)
+    response.headers['Cache-Control'] = 'public, max-age=300, s-maxage=600'
+    return response
 
 @app.route('/__healthcheck__', methods=['GET', 'POST'])
 def health_check():
@@ -80,6 +83,9 @@ def health_check():
                                 title='Healthcheck',
                                 ttr={'time of response': time.time(), 'date': datetime.now()},
                                 echo=posted)
+@app.route('/utilization-map')
+def display_utilization_map():
+    return render_template('utilization-map.html', title='Utililzation Rates Map')
 
 @app.route('/team')
 def display_team():

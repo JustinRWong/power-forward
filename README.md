@@ -48,3 +48,5 @@ We have analytics such that when any page is loaded, we get ip address, the url 
 - https://medium.com/innovation-incubator/flask-before-and-after-request-decorators-e639b06c2128
 - https://stackoverflow.com/questions/9878020/how-do-i-get-the-user-agent-with-flask
 - https://stackoverflow.com/questions/3759981/get-ip-address-of-visitors-using-flask-for-python
+- https://medium.com/firebase-developers/hosting-flask-servers-on-firebase-from-scratch-c97cfb204579
+- https://cloud.google.com/sdk/gcloud/reference/beta/run/deploy#--platform
