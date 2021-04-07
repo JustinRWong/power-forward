@@ -173,8 +173,8 @@ Edge
 def before_request_func():
     is_not_image_people_request = "people" not in request.url
     is_not_discordbot_request = "Discordbot" not in request.headers.get('User-Agent')
-    # if is_not_image_people_request and is_not_discordbot_request:
-    #     analytics(request)
+    if is_not_image_people_request and is_not_discordbot_request:
+        analytics(request)
 
 
 @app.errorhandler(500)
