@@ -87,7 +87,10 @@ def base():
 
 @app.route('/')
 def index():
-    template = render_template('index.html', parallax="parallax")
+    template = render_template('index.html',
+                                parallax="parallax",
+                                jumbo_logo="https://power-forward.web.app/images/PowerForward_Cropped.png",
+                                layer="layer")
     response = make_response(template)
     response.headers['Cache-Control'] = 'public, max-age=300, s-maxage=600'
     return response
@@ -170,8 +173,8 @@ Edge
 def before_request_func():
     is_not_image_people_request = "people" not in request.url
     is_not_discordbot_request = "Discordbot" not in request.headers.get('User-Agent')
-    if is_not_image_people_request and is_not_discordbot_request:
-        analytics(request)
+    # if is_not_image_people_request and is_not_discordbot_request:
+    #     analytics(request)
 
 
 @app.errorhandler(500)
