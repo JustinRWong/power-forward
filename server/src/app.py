@@ -40,7 +40,7 @@ def create_app(app, config=None):
 ###############################################
 #      Define navbar with logo                #
 ###############################################
-logo = img(src='static/images/PowerForward_icon.png', width="50", style="margin-top:-15px")
+logo = img(src='https://power-forward.web.app/images/PowerForward_icon.png', width="50", style="margin-top:-15px")
 #here we define our menu items. Add as needed
 topbar = Navbar(View(logo, 'index'),
                 View('Home', 'index'),

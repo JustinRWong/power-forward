@@ -4,8 +4,8 @@ import json, time, hashlib
 import datetime as dt
 from urllib.parse import urlencode
 
-from models.shared import *
-from models.saferproxyfix import SaferProxyFix
+# from models.shared import *
+# from models.saferproxyfix import SaferProxyFix
 
 def validate_PF_API_token(headers):
     pf_token = headers.get('X-POWER-FORWARD-TOKEN')
@@ -42,7 +42,7 @@ def analytics(req):
     ip_address = ip
     url = req.url
     device = req.headers.get('User-Agent')
-    current_time = datetime.now()
+    current_time = dt.datetime.now()
     content_dict = {    "Visit Time":  current_time,
                         "Requester IP": ip_address,
                         "URL Visited": url,
