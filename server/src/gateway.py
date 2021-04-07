@@ -4,7 +4,7 @@ import json, time, hashlib
 import datetime as dt
 from urllib.parse import urlencode
 
-# from models.shared import *
+from models.shared import *
 # from models.saferproxyfix import SaferProxyFix
 
 def validate_PF_API_token(headers):
@@ -50,7 +50,7 @@ def analytics(req):
     content_str = "GOT A VISITOR!"
 
     ## store in mongo
-    # web_visitors.insert_one(content_dict)
+    inserted_id = web_visitors.insert_one(content_dict)
 
     for k, v in content_dict.items():
         content_str = content_str + "\n  > {k}: {v}".format(k=k, v=v)
