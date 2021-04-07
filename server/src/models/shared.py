@@ -10,7 +10,7 @@ import uuid
 import os
 from datetime import datetime
 
-MONGO_DB_CONNECTION_STRING ="mongodb+srv://justin-local:12qw34er56ty!@cluster0.g8w06.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"# os.environ.get('MONGO_DB_CONNECTION_STRING')
+MONGO_DB_CONNECTION_STRING = os.environ.get('MONGO_DB_CONNECTION_STRING')
 mongo_client = pymongo.MongoClient(MONGO_DB_CONNECTION_STRING)
 web_db = mongo_client.web
 web_suggestions = web_db.suggestions
