@@ -7,11 +7,34 @@
 <div class='container'>
 
   <div class='row'>
-    <div class="heading-title text-center">
-        <h3 class="text-uppercase">About Power Forward</h3>
-        <p class="p-top-30 half-txt">We use machine learning to help governments and mobility companies optimally place new EV charging stations. Check out our recent work!</p>
+    <div class="heading-title">
+      <div class='container'>
+        <h3 class="text-uppercase text-center">About Power Forward</h3>
+        <h4 class="p-top-30">We use machine learning to help governments and mobility companies optimally place new EV charging stations.
+        </h4>
+      </div>
     </div>
+  </div>
 
+  <div class='row'>
+    <form method="POST" action="{{ url_for('suggest_city') }}">
+      <div class="container">
+        <h3>Suggest your City!</h3>
+        <p>Below you'll see existing charging stations throughout California.
+           If you have a city or area you would love to promote EV adoption, let us know!</p>
+      </div>
+
+      <div class="container" style="background-color:white">
+        <input type="text" placeholder="City" name="city" required>
+        <input type="text" placeholder="State" name="state" required>
+        <input type="email" placeholder="Email" name="email" required>
+        <input type="submit" value="Suggest">
+      </div>
+
+    </form>
+  </div>
+
+  <div class='row'>
     <div class="col-md-4 col-sm-4">
       <div class="team-member">
           <div class="team-img">

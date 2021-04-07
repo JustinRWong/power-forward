@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, abort, jsonify, render_template, make_response, session
+from flask import Flask, Response, request, abort, jsonify, render_template, make_response, session, redirect
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -11,8 +11,6 @@ import requests
 import yaml
 
 from gateway import *
-from models.shared import *
-from models.saferproxyfix import SaferProxyFix
 '''
 App setup
 '''
@@ -42,7 +40,7 @@ def create_app(app, config=None):
 ###############################################
 #      Define navbar with logo                #
 ###############################################
-logo = img(src='static/images/PowerForward_icon.png', height="50", style="margin-top:-15px")
+logo = img(src='static/images/PowerForward_icon.png', width="50", style="margin-top:-15px")
 #here we define our menu items. Add as needed
 topbar = Navbar(View(logo, 'index'),
                 View('Home', 'index'),
@@ -50,7 +48,7 @@ topbar = Navbar(View(logo, 'index'),
                 View('Utilization Rates Map', 'display_utilization_map'),
                 View('Team', 'display_team')
                 )
-## 00FF87
+## 00FF87 neon green;; 40A025 dark green;; 0CC166
 # registers the "top" menubar
 nav = Nav()
 nav.register_element('top', topbar)
@@ -74,8 +72,6 @@ if __name__ == '__main__':
         'SQLALCHEMY_TRACK_MODIFICATIONS': True,
         # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
     })
-
-
 
     ## run web server
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
@@ -186,3 +182,18 @@ def server_error(e):
     <pre>{}</pre>
     sorry
     """.format(e), 500
+
+
+'''
+Collections
+'''
+
+@app.route('/suggest-city', methods=['POST'])
+def suggest_city():
+    city = request.form['city']
+    email = request.form['email']
+    state = request.form['state']
+    print('Recived: ', city, email)
+    success = collect_suggestion(city, state, email)
+
+    return redirect(url_for('index'))
