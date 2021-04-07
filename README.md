@@ -37,8 +37,18 @@ pip install requirements.txt
 ./start_local.sh
 ```
 
+
+
+### App structure
+`server`
+Deployed to google cloud engine.
+
+
+`static`
+Deployed to firebase hosting.
+
 ### Live (Production)
-[Visit our app!](http://power-forward.herokuapp.com/)
+[Visit our app!](powerforward.tech)
 
 
 ### Analytics

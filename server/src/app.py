@@ -87,7 +87,7 @@ def base():
 
 @app.route('/')
 def index():
-    template = render_template('index.html', title='Home')
+    template = render_template('index.html', parallax="parallax")
     response = make_response(template)
     response.headers['Cache-Control'] = 'public, max-age=300, s-maxage=600'
     return response

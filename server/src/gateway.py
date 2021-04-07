@@ -50,7 +50,7 @@ def analytics(req):
     content_str = "GOT A VISITOR!"
 
     ## store in mongo
-    web_visitors.insert_one(content_dict)
+    # web_visitors.insert_one(content_dict)
 
     for k, v in content_dict.items():
         content_str = content_str + "\n  > {k}: {v}".format(k=k, v=v)
