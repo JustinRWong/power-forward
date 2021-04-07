@@ -1,4 +1,8 @@
 from flask import Flask, Response, request, abort, jsonify, render_template, make_response, session
+from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+from flask_nav.elements import *
+from dominate.tags import img
 import json
 import logging
 import os
@@ -34,7 +38,35 @@ def create_app(app, config=None):
     # db.init_app(app)
     # config_oauth(app)
     # app.register_blueprint(bp, url_prefix='')
+
+###############################################
+#      Define navbar with logo                #
+###############################################
+logo = img(src='static/images/PowerForward_icon.png', height="50", style="margin-top:-15px")
+#here we define our menu items. Add as needed
+topbar = Navbar(View(logo, 'index'),
+                View('Home', 'index'),
+                View('Map', 'display_map'),
+                View('Utilization Rates Map', 'display_utilization_map'),
+                View('Team', 'display_team')
+                )
+## 00FF87
+# registers the "top" menubar
+nav = Nav()
+nav.register_element('top', topbar)
+
+###############################################
+#          Define flask app                   #
+###############################################
+
 app = Flask(__name__)
+Bootstrap(app)
+###############################################
+#             Init and confis our app         #
+###############################################
+app.jinja_env.cache = {}
+app.config["CACHE_TYPE"] = "null"
+nav.init_app(app)
 if __name__ == '__main__':
     ## setup app
     app = create_app(app, {
@@ -42,6 +74,9 @@ if __name__ == '__main__':
         'SQLALCHEMY_TRACK_MODIFICATIONS': True,
         # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
     })
+
+
+
     ## run web server
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
 
@@ -49,6 +84,11 @@ if __name__ == '__main__':
 '''
 App Routes
 '''
+
+@app.route('/base')
+def base():
+    return render_template('/base.html')
+
 @app.route('/')
 def index():
     template = render_template('index.html', title='Home')
@@ -83,6 +123,12 @@ def health_check():
                                 title='Healthcheck',
                                 ttr={'time of response': time.time(), 'date': datetime.now()},
                                 echo=posted)
+
+
+@app.route('/map')
+def display_map():
+    return render_template('map.html', title='Map')
+
 @app.route('/utilization-map')
 def display_utilization_map():
     return render_template('utilization-map.html', title='Utililzation Rates Map')
@@ -91,9 +137,6 @@ def display_utilization_map():
 def display_team():
     return render_template('team.html', title='Team')
 
-@app.route('/map')
-def display_map():
-    return render_template('map.html', title='Map')
 
 @app.route('/discord', methods=['GET', 'POST'])
 def discord():

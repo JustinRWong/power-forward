@@ -3,12 +3,10 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta property="og:image" content="https://powerforward.tech/static/images/PowerForward_cleaned.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -45,7 +43,7 @@
     <div id="footer" align="center">
       {% block footer %}
       &copy; Copyright 2021 by
-      <a href="https://power-forward.herokuapp.com/">
+      <a href="https://powerforward.tech/">
         <img src="{{url_for('static', filename='images/PowerForward_cleaned.png')}}" class="logo" style='width:10%'/>
       </a>
       {% endblock %}
@@ -55,7 +53,7 @@
     <!-- Optional JavaScript -->
     <script>
       function myFunction() {
-        var x = document.getElementById("myTopnav");
+        var x = document.getElementByTagName("nav");
         if (x.className === "topnav") {
           x.className += " responsive";
         } else {

@@ -1,23 +1,13 @@
+
+<!-- Here we use bootstrap extension for our navigation Bar -->
+{% extends "bootstrap/base.html" %}
+
+<!----------------------------------------------------------------->
+<!------------------      Nav bar start  -------------------------->
+<!----------------------------------------------------------------->
 {% block navbar %}
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    var main_route = (window.location.pathname.split("/")[1]);
-    console.log(main_route);
-    console.log('#navbar_' + main_route)
-    $('#navbar_' + main_route).addClass('active');
-});
-</script>
-
-<ul class="topnav" id="myTopnav">
-    <!-- <li><a id='navbar_' href="{{ url_for('index') }}" class="nav-item"><img src="{{url_for('static', filename='images/PowerForward_cleaned.png')}}" class="logo" style='width:10%'/></a></li> -->
-    <li><a id='navbar_' href="{{ url_for('index') }}" class="nav-item">Home</a></li>
-    <li><a id='navbar_map' href="{{ url_for('display_map') }}" class="nav-item">Map</a></li>
-    <li><a id='navbar_team' href="{{ url_for('display_utilization_map') }}" class="nav-item">Utilization Rates Map</a></li>
-    <li><a id='navbar_team' href="{{ url_for('display_team') }}" class="nav-item">Team</a></li>
-    <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">
-      <i class="fa fa-bars"></i>
-    </a></li>
-</ul>
-
+{{nav.top.render()}}
 {% endblock %}
+<!----------------------------------------------------------------->
+<!------------------      Nav bar end  -------------------------->
+<!----------------------------------------------------------------->
