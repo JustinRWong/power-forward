@@ -1,0 +1,26 @@
+{
+  "name": "power-forward-app",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://www.travis-ci.com/JustinRWong/power-forward.svg?token=PypfBCP6DVTswgKuxbJa&branch=main)](https://www.travis-ci.com/JustinRWong/power-forward)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinRWong/power-forward.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustinRWong/power-forward/issues"
+  },
+  "homepage": "https://github.com/JustinRWong/power-forward#readme",
+  "devDependencies": {
+    "firebase-tools": "^9.8.0"
+  }
+}

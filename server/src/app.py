@@ -1,4 +1,8 @@
-from flask import Flask, Response, request, abort, jsonify, render_template, session
+from flask import Flask, Response, request, abort, jsonify, render_template, make_response, session, redirect
+from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+from flask_nav.elements import *
+from dominate.tags import img
 import json
 import logging
 import os
@@ -6,14 +10,11 @@ import os
 import requests
 import yaml
 
-from src.gateway import *
-from src.models.shared import *
-from src.models.saferproxyfix import SaferProxyFix
+from gateway import *
 '''
 App setup
 '''
-def create_app(config=None):
-    app = Flask(__name__)
+def create_app(app, config=None):
     # load app sepcified configuration
     if config is not None:
         if isinstance(config, dict):
@@ -36,18 +37,63 @@ def create_app(config=None):
     # config_oauth(app)
     # app.register_blueprint(bp, url_prefix='')
 
-app = create_app({
-    'SECRET_KEY': 'secret',
-    'SQLALCHEMY_TRACK_MODIFICATIONS': True,
-    # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
-})
+###############################################
+#      Define navbar with logo                #
+###############################################
+logo = img(src='https://power-forward.web.app/images/PowerForward_icon.png', width="50", style="margin-top:-15px")
+#here we define our menu items. Add as needed
+topbar = Navbar(View(logo, 'index'),
+                View('Home', 'index'),
+                View('Map', 'display_map'),
+                View('Utilization Rates Map', 'display_utilization_map'),
+                View('Team', 'display_team')
+                )
+## 00FF87 neon green;; 40A025 dark green;; 0CC166
+# registers the "top" menubar
+nav = Nav()
+nav.register_element('top', topbar)
+
+###############################################
+#          Define flask app                   #
+###############################################
+
+app = Flask(__name__)
+Bootstrap(app)
+###############################################
+#             Init and confis our app         #
+###############################################
+app.jinja_env.cache = {}
+app.config["CACHE_TYPE"] = "null"
+nav.init_app(app)
+if __name__ == '__main__':
+    ## setup app
+    app = create_app(app, {
+        'SECRET_KEY': 'secret',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': True,
+        # 'SQLALCHEMY_DATABASE_URI': DB_CONNECTION_STRING,
+    })
+
+    ## run web server
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+
 
 '''
 App Routes
 '''
+
+@app.route('/base')
+def base():
+    return render_template('/base.html')
+
 @app.route('/')
 def index():
-    return render_template('index.html', title='Home')
+    template = render_template('index.html',
+                                parallax="parallax",
+                                jumbo_logo="https://power-forward.web.app/images/PowerForward_Cropped.png",
+                                layer="layer")
+    response = make_response(template)
+    response.headers['Cache-Control'] = 'public, max-age=300, s-maxage=600'
+    return response
 
 @app.route('/__healthcheck__', methods=['GET', 'POST'])
 def health_check():
@@ -77,13 +123,19 @@ def health_check():
                                 ttr={'time of response': time.time(), 'date': datetime.now()},
                                 echo=posted)
 
-@app.route('/team')
-def display_team():
-    return render_template('team.html', title='Team')
 
 @app.route('/map')
 def display_map():
     return render_template('map.html', title='Map')
+
+@app.route('/utilization-map')
+def display_utilization_map():
+    return render_template('utilization-map.html', title='Utililzation Rates Map')
+
+@app.route('/team')
+def display_team():
+    return render_template('team.html', title='Team')
+
 
 @app.route('/discord', methods=['GET', 'POST'])
 def discord():
@@ -133,3 +185,18 @@ def server_error(e):
     <pre>{}</pre>
     sorry
     """.format(e), 500
+
+
+'''
+Collections
+'''
+
+@app.route('/suggest-city', methods=['POST'])
+def suggest_city():
+    city = request.form['city']
+    email = request.form['email']
+    state = request.form['state']
+    print('Recived: ', city, email)
+    success = collect_suggestion(city, state, email)
+
+    return redirect(url_for('index'))
