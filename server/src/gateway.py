@@ -3,6 +3,7 @@ import requests, os
 import json, time, hashlib
 import datetime as dt
 from urllib.parse import urlencode
+import random
 
 from models.shared import *
 # from models.saferproxyfix import SaferProxyFix
@@ -98,3 +99,6 @@ def collect_suggestion(city, state, email):
     inserted_id = web_suggestions.insert_one(stored_doc)
     print(inserted_id)
     return True
+
+def predict_utilization_rate(lat, long):
+    return random.random()

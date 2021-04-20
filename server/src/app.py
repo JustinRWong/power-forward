@@ -44,7 +44,8 @@ logo = img(src='https://power-forward.web.app/images/PowerForward_icon.png', wid
 #here we define our menu items. Add as needed
 topbar = Navbar(View(logo, 'index'),
                 View('Home', 'index'),
-                View('Map', 'display_map'),
+                View('Map', 'map'),
+                View('Charging Station Map', 'display_charging_station_map'),
                 View('Utilization Rates Map', 'display_utilization_map'),
                 View('Team', 'display_team')
                 )
@@ -117,6 +118,7 @@ def health_check():
 
     if request.method == 'POST':
         form_param = request.form['form_param']
+        print(form_param)
         posted = { 'params': query_string_params, 'data': data_params , 'form_param': form_param}
         return render_template( 'healthcheck.html',
                                 title='Healthcheck',
@@ -124,17 +126,38 @@ def health_check():
                                 echo=posted)
 
 
-@app.route('/map')
-def display_map():
-    return render_template('map.html', title='Map')
+@app.route('/charging-station-map')
+def display_charging_station_map():
+    return render_template('charging-station-map.html', title='Map')
 
 @app.route('/utilization-map')
 def display_utilization_map():
     return render_template('utilization-map.html', title='Utililzation Rates Map')
 
+@app.route('/map', methods=['GET', 'POST'])
+def map():
+    if request.method == 'POST':
+        print('GOT A MAP POST')
+        ## Query parameter argumeents
+        query_string_params = request.args
+        print(query_string_params)
+        data_params = request.get_json()
+        lat = query_string_params['lat']
+        long = query_string_params['long']
+        print(data_params)
+
+        ## Shouldl return a utilization rate
+        predicted_utilization_rate  = predict_utilization_rate(lat, long)
+        print('RECEVIED coordinattes: ', lat, long, predicted_utilization_rate)
+        return {'utilization-rate': predicted_utilization_rate}
+    if request.method == 'GET':
+        return render_template('map.html')
+
 @app.route('/team')
 def display_team():
-    return render_template('team.html', title='Team')
+    if request.method == 'GET':
+        return render_template('team.html', title='Team')
+
 
 
 @app.route('/discord', methods=['GET', 'POST'])
@@ -173,8 +196,8 @@ Edge
 def before_request_func():
     is_not_image_people_request = "people" not in request.url
     is_not_discordbot_request = "Discordbot" not in request.headers.get('User-Agent')
-    if is_not_image_people_request and is_not_discordbot_request:
-        analytics(request)
+    # if is_not_image_people_request and is_not_discordbot_request:
+    #     analytics(request)
 
 
 @app.errorhandler(500)
@@ -188,11 +211,15 @@ def server_error(e):
 
 
 '''
-Collections
+Server Requests
+
 '''
 
 @app.route('/suggest-city', methods=['POST'])
 def suggest_city():
+    '''
+    Colleecting user feedback from home page
+    '''
     city = request.form['city']
     email = request.form['email']
     state = request.form['state']
@@ -200,3 +227,6 @@ def suggest_city():
     success = collect_suggestion(city, state, email)
 
     return redirect(url_for('index'))
+
+
+# @app.route('/api/')
