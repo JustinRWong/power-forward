@@ -128,7 +128,7 @@ def health_check():
 
 @app.route('/charging-station-map')
 def display_charging_station_map():
-    return render_template('charging-station-map.html', title='Map')
+    return render_template('charging-station-map.html', title='Charging Station Map')
 
 @app.route('/utilization-map')
 def display_utilization_map():
@@ -151,7 +151,7 @@ def map():
         print('RECEVIED coordinattes: ', lat, long, predicted_utilization_rate)
         return {'utilization-rate': predicted_utilization_rate}
     if request.method == 'GET':
-        return render_template('map.html')
+        return render_template('map.html',  title='Map')
 
 @app.route('/team')
 def display_team():
@@ -226,7 +226,7 @@ def suggest_city():
     print('Recived: ', city, email)
     success = collect_suggestion(city, state, email)
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index'), )
 
 
 # @app.route('/api/')
