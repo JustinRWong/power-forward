@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
   <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
   {% extends 'base.html' %}
 
@@ -172,5 +173,105 @@
 <div class="embed-container">
   <div id="viewDiv"></div>
 </div>
+=======
+<link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.12/"></script>
+<style>
+    #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    }
+</style>
 
-{% endblock %}
+<script>
+function pickHex(color1, color2, weight) {
+    var p = weight;
+    var w = p * 2 - 1;
+    var w1 = (w/1+1) / 2;
+    var w2 = 1 - w1;
+    var rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+        Math.round(color1[1] * w1 + color2[1] * w2),
+        Math.round(color1[2] * w1 + color2[2] * w2)];
+    return rgb;
+}
+
+require(["esri/widgets/Sketch",
+          "esri/Map",
+          "esri/layers/GraphicsLayer",
+          "esri/views/MapView",
+          "esri/layers/FeatureLayer"],
+          function(Sketch, Map, GraphicsLayer, MapView, FeatureLayer) {
+            const layer = new GraphicsLayer();
+            const map = new Map({
+              basemap: "dark-gray",
+              layers: [layer]
+            });
+
+            const view = new MapView({
+              container: "viewDiv",
+              map: map,
+              zoom: 11,
+              center: [-122.2913, 37.8272]
+            });
+>>>>>>> 0b34ec6816a91eeb9d5f7e00ae60a39aeef72812
+
+            const sketch = new Sketch({
+              layer: layer,
+              view: view,
+              availableCreateTools: ["point"]
+            });
+
+            const fl = new FeatureLayer({
+              portalItem: {  // autocasts as esri/portal/PortalItem
+                id: "85872f8eaf6d4a40aaf01ff491174550"
+              }
+            });
+            map.add(fl);  // adds the layer to the map
+
+            view.ui.add(sketch, "top-right");
+
+            var color = [0,0,0]
+            sketch.on('create', function(evt){
+              post_url = '/map'
+              let payload = {
+                'lat': evt.graphic.geometry.latitude,
+                'long': evt.graphic.geometry.longitude
+              };
+
+
+              fetch("/map" + "?lat=" + String(evt.graphic.geometry.latitude) +"&long=" +String(evt.graphic.geometry.longitude), {
+                method: "POST",
+                body: JSON.stringify(payload)
+              })
+              .then(response => response.json())
+              .then(data => {
+                //#74 B0 b9 = blue; F0fa0C = yello
+                var low_gradient = [116,176,185]  //#74B0b9 = blue
+                var high_gradient = [240,250,12]  //#F0fa0C = yello
+                color = pickHex(low_gradient, high_gradient, data['utilization-rate']);
+              });
+            });
+
+            sketch.viewModel.watch('state', function (state) {
+              if (state === 'ready') {
+                sketch.viewModel.pointSymbol = {
+                  type: "simple-marker",
+                  style: "circle",
+                  size: 6,
+                  color: color,
+                  outline: {
+                    color: [190, 227,180], // light green
+                    width: 1
+                  }
+                };
+              }
+            });
+
+          });
+</script>
+
+<div class="embed-container">
+  <div id="viewDiv"></div>
+</div>
