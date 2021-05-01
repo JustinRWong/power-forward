@@ -32,7 +32,10 @@
 
     <div id="content">
       <div class="jumbotron {{ parallax }}">
-        <img src="{{ jumbo_logo }}" class="text-center" style="width:60%; z-index:2; position:relative">
+        {% if jumbo_logo %}
+          <img src="{{ jumbo_logo }}" class="text-center" style="width:60%; z-index:2; position:relative">
+        {% else %}
+        {% endif %}
         <div class="{{ layer }}"></div>
         <h1 class="display-4">
             		{% if title %}
@@ -55,5 +58,5 @@
       </a>
       {% endblock %}
     </div>
-    
+
   </body>

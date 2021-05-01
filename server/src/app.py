@@ -45,6 +45,7 @@ logo = img(src='https://power-forward.web.app/images/PowerForward_icon.png', wid
 topbar = Navbar(View(logo, 'index'),
                 View('Home', 'index'),
                 View('Map', 'map'),
+                View('Simulate', 'simulate'),
                 View('Charging Station Map', 'display_charging_station_map'),
                 View('Utilization Rates Map', 'display_utilization_map'),
                 View('Team', 'display_team')
@@ -128,7 +129,7 @@ def health_check():
 
 @app.route('/charging-station-map')
 def display_charging_station_map():
-    return render_template('charging-station-map.html', title='Map')
+    return render_template('charging-station-map.html', title='Charging Station Map')
 
 @app.route('/utilization-map')
 def display_utilization_map():
@@ -151,7 +152,7 @@ def map():
         print('RECEVIED coordinattes: ', lat, long, predicted_utilization_rate)
         return {'utilization-rate': predicted_utilization_rate}
     if request.method == 'GET':
-        return render_template('map.html')
+        return render_template('map.html',  title='Map')
 
 @app.route('/team')
 def display_team():
@@ -188,6 +189,55 @@ def discord():
         }
         send_to_discord(payload)
         return "pshed"
+
+@app.route("/simulate", methods=['GET', 'POST'])
+def simulate():
+    data  = [
+        ("01-01-2020", 1597),
+        ("02-01-2020", 1456),
+        ("03-01-2020", 1908),
+        ("04-01-2020", 896),
+        ("05-01-2020", 755),
+        ("06-01-2020", 453),
+        ("07-01-2020", 1100),
+        ("08-01-2020", 1235),
+        ("09-01-2020", 1478),
+    ]
+    labels = [row[0] for row in data]
+    values = [row[1] for row in data]
+
+    pois_dict = {
+            'lodging': {"label": "Lodging", "max_val":20},
+            'supermarket': {"label": "Supermarket", "max_val":20},
+            'pharmacy': {"label": "Pharmacy", "max_val":20},
+            'park': {"label": "Park", "max_val":20},
+            'restaurant': {"label": "Restaurant", "max_val":20},
+            'clothing_store': {"label": "Clothing Store", "max_val":20},
+            'store': {"label": "Store", "max_val":20},
+            'school': {"label": "School", "max_val":20},
+            'gym': {"label": "Gym", "max_val":20},
+            'library': {"label": "Library", "max_val":20},
+            'local_government_office': {"label": "Local Government Office", "max_val":20},
+            'doctor': {"label": "Doctor", "max_val":20},
+            'stadium': {"label": "Stadium", "max_val":20},
+            'museum': {"label": "Museum", "max_val":20},
+            'church': {"label": "Church", "max_val":20},
+            'synagogue': {"label": "Synagogue", "max_val":20}
+           }
+
+    if request.method == 'GET':
+        return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
+    else:
+        print('WE GOT POST')
+        ## Query parameter argumeents
+        form_dict = request.form
+        sanitized_dict = {}
+        for k, v in form_dict.items():
+            sanitized_dict[k] = int(v)
+
+        print(type(sanitized_dict), sanitized_dict)
+        return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
+
 
 '''
 Edge
@@ -226,7 +276,7 @@ def suggest_city():
     print('Recived: ', city, email)
     success = collect_suggestion(city, state, email)
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index'), )
 
 
 # @app.route('/api/')
