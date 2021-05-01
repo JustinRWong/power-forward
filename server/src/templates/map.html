@@ -1,6 +1,12 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
 {% extends 'base.html' %}
 
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+{% extends 'base.html' %}
+
+>>>>>>> 5b6a5869d455ebe0cc9d665adc785efb2b6fa7e1
 {% block title %}Map{% endblock %}
 
 {% block content %}
@@ -72,6 +78,7 @@ require(["esri/widgets/Sketch",
               },
                maxScale: 0,
                minScale: 72558
+<<<<<<< HEAD
             });
             map.add(pois);  // adds the layer to the map
 
@@ -104,6 +111,40 @@ require(["esri/widgets/Sketch",
               });
               view.ui.add(legend, "bottom-right");
             });
+=======
+            });
+            map.add(pois);  // adds the layer to the map
+
+            // Check Cal arcgis layers https://cal.maps.arcgis.com/home/content.html?view=table&sortOrder=desc&sortField=modified#groups
+            const featurelayers = ['62ddd40455f440468d7f698fd12b814f', 'b5210a70ab7043aead0da602e527dfe3'];
+            //
+            // const fl = new FeatureLayer({
+            //   portalItem: {  // autocasts as esri/portal/PortalItem
+            //     id: "cd0514b3f1834f2c96321d62ea8a59e9"
+            //   }
+            // });
+            // map.add(fl);  // adds the layer to the map
+
+            featurelayers.forEach(function (item, index) {
+              console.log(item, index);
+              // add feature layers
+              const fl = new FeatureLayer({
+                portalItem: {  // autocasts as esri/portal/PortalItem
+                  id: item
+                }
+              });
+              map.add(fl);  // adds the layer to the map
+
+              var legend = new Legend({
+                view: view,
+                layerInfos: [{
+                  layer: item,
+                  title: "Legend"
+                }]
+              });
+              view.ui.add(legend, "bottom-right");
+            });
+>>>>>>> 5b6a5869d455ebe0cc9d665adc785efb2b6fa7e1
 
 
 
