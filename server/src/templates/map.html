@@ -1,180 +1,15 @@
+<link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+{% extends 'base.html' %}
 
 <<<<<<< HEAD
-  <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
-  {% extends 'base.html' %}
-
-  {% block title %}Map{% endblock %}
-
-  {% block content %}
-  <script src="https://js.arcgis.com/4.12/"></script>
-  <style>
-      #viewDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-      }
-  </style>
-
-  <script>
-  function pickHex(color1, color2, weight) {
-      var p = weight;
-      var w = p * 2 - 1;
-      var w1 = (w/1+1) / 2;
-      var w2 = 1 - w1;
-      var rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
-          Math.round(color1[1] * w1 + color2[1] * w2),
-          Math.round(color1[2] * w1 + color2[2] * w2)];
-      return rgb;
-  }
-
-  require(["esri/widgets/Sketch",
-            "esri/Map",
-            "esri/layers/GraphicsLayer",
-            "esri/views/MapView",
-            "esri/layers/FeatureLayer",
-            "esri/widgets/Legend",
-            "esri/widgets/Search"],
-            function(Sketch, Map, GraphicsLayer, MapView, FeatureLayer, Legend, Search) {
-              const layer = new GraphicsLayer();
-              const map = new Map({
-                basemap: "gray",
-                layers: [layer]
-              });
-
-              const view = new MapView({
-                container: "viewDiv",
-                map: map,
-                zoom: 11,
-                center: [-122.2913, 37.8272] // defaulti is Berkeley/Bay Area
-              });
-
-              // search bar
-              const searchWidget = new Search({
-                view: view
-              });
-              // Adds the search widget below other elements in
-              // the top left corner of the view
-              view.ui.add(searchWidget, {
-                position: "top-left",
-                index: 0
-              });
-
-              // Pin drop
-              const sketch = new Sketch({
-                layer: layer,
-                view: view,
-                availableCreateTools: ["point"]
-              });
-
-              // add POI feature layer
-              const pois = new FeatureLayer({
-                portalItem: {  // autocasts as esri/portal/PortalItem
-                  id: "f5c50f7fbd1647dab23cee840b73817d"
-                },
-                 maxScale: 0,
-                 minScale: 72558
-              });
-              map.add(pois);  // adds the layer to the map
-
-              // Check Cal arcgis layers https://cal.maps.arcgis.com/home/content.html?view=table&sortOrder=desc&sortField=modified#groups
-              const featurelayers = ['62ddd40455f440468d7f698fd12b814f', 'b5210a70ab7043aead0da602e527dfe3'];
-              //
-              // const fl = new FeatureLayer({
-              //   portalItem: {  // autocasts as esri/portal/PortalItem
-              //     id: "cd0514b3f1834f2c96321d62ea8a59e9"
-              //   }
-              // });
-              // map.add(fl);  // adds the layer to the map
-
-              featurelayers.forEach(function (item, index) {
-                console.log(item, index);
-                // add feature layers
-                const fl = new FeatureLayer({
-                  portalItem: {  // autocasts as esri/portal/PortalItem
-                    id: item
-                  }
-                });
-                map.add(fl);  // adds the layer to the map
-
-                var legend = new Legend({
-                  view: view,
-                  layerInfos: [{
-                    layer: item,
-                    title: "Legend"
-                  }]
-                });
-                view.ui.add(legend, "bottom-right");
-              });
-
-
-
-              //
-              // const berkeleyChargingStations = new FeatureLayer({
-              //   portalItem: {  // autocasts as esri/portal/PortalItem
-              //     id: "0028ee20a0844a01b6f4f7c94f315caf"
-              //   }
-              // });
-              // map.add(berkeleyChargingStations);  // adds the layer to the map
-              //
-              // const pois = new FeatureLayer({
-              //   portalItem: {  // autocasts as esri/portal/PortalItem
-              //     id: "f5c50f7fbd1647dab23cee840b73817d"
-              //   }
-              // });
-              // map.add(pois);  // adds the layer to the map
-
-              view.ui.add(sketch, "top-right");
-
-              var color = [0,0,0]
-              sketch.on('create', function(evt){
-                post_url = '/map'
-                let payload = {
-                  'lat': evt.graphic.geometry.latitude,
-                  'long': evt.graphic.geometry.longitude
-                };
-
-
-                fetch("/map" + "?lat=" + String(evt.graphic.geometry.latitude) +"&long=" +String(evt.graphic.geometry.longitude), {
-                  method: "POST",
-                  body: JSON.stringify(payload)
-                })
-                .then(response => response.json())
-                .then(data => {
-                  //#74 B0 b9 = blue; F0fa0C = yello
-                  var low_gradient = [116,176,185]  //#74B0b9 = blue
-                  var high_gradient = [240,250,12]  //#F0fa0C = yello
-                  console.log('Utililzation Rate: ', String(data['utilization-rate']));
-                  color = pickHex(low_gradient, high_gradient, data['utilization-rate']);
-                });
-              });
-
-              sketch.viewModel.watch('state', function (state) {
-                if (state === 'ready') {
-                  sketch.viewModel.pointSymbol = {
-                    type: "simple-marker",
-                    style: "circle",
-                    size: 6,
-                    color: color,
-                    outline: {
-                      color: [190, 227,180], // light green
-                      width: 1
-                    }
-                  };
-                }
-              });
-
-
-
-            });
-  </script>
-
-
-<div class="embed-container">
-  <div id="viewDiv"></div>
-</div>
 =======
 <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+{% extends 'base.html' %}
+
+>>>>>>> 5b6a5869d455ebe0cc9d665adc785efb2b6fa7e1
+{% block title %}Map{% endblock %}
+
+{% block content %}
 <script src="https://js.arcgis.com/4.12/"></script>
 <style>
     #viewDiv {
@@ -201,11 +36,13 @@ require(["esri/widgets/Sketch",
           "esri/Map",
           "esri/layers/GraphicsLayer",
           "esri/views/MapView",
-          "esri/layers/FeatureLayer"],
-          function(Sketch, Map, GraphicsLayer, MapView, FeatureLayer) {
+          "esri/layers/FeatureLayer",
+          "esri/widgets/Legend",
+          "esri/widgets/Search"],
+          function(Sketch, Map, GraphicsLayer, MapView, FeatureLayer, Legend, Search) {
             const layer = new GraphicsLayer();
             const map = new Map({
-              basemap: "dark-gray",
+              basemap: "gray",
               layers: [layer]
             });
 
@@ -213,22 +50,118 @@ require(["esri/widgets/Sketch",
               container: "viewDiv",
               map: map,
               zoom: 11,
-              center: [-122.2913, 37.8272]
+              center: [-122.2913, 37.8272] // defaulti is Berkeley/Bay Area
             });
->>>>>>> 0b34ec6816a91eeb9d5f7e00ae60a39aeef72812
 
+            // search bar
+            const searchWidget = new Search({
+              view: view
+            });
+            // Adds the search widget below other elements in
+            // the top left corner of the view
+            view.ui.add(searchWidget, {
+              position: "top-left",
+              index: 0
+            });
+
+            // Pin drop
             const sketch = new Sketch({
               layer: layer,
               view: view,
               availableCreateTools: ["point"]
             });
 
-            const fl = new FeatureLayer({
+            // add POI feature layer
+            const pois = new FeatureLayer({
               portalItem: {  // autocasts as esri/portal/PortalItem
-                id: "85872f8eaf6d4a40aaf01ff491174550"
-              }
+                id: "f5c50f7fbd1647dab23cee840b73817d"
+              },
+               maxScale: 0,
+               minScale: 72558
+<<<<<<< HEAD
             });
-            map.add(fl);  // adds the layer to the map
+            map.add(pois);  // adds the layer to the map
+
+            // Check Cal arcgis layers https://cal.maps.arcgis.com/home/content.html?view=table&sortOrder=desc&sortField=modified#groups
+            const featurelayers = ['62ddd40455f440468d7f698fd12b814f', 'b5210a70ab7043aead0da602e527dfe3'];
+            //
+            // const fl = new FeatureLayer({
+            //   portalItem: {  // autocasts as esri/portal/PortalItem
+            //     id: "cd0514b3f1834f2c96321d62ea8a59e9"
+            //   }
+            // });
+            // map.add(fl);  // adds the layer to the map
+
+            featurelayers.forEach(function (item, index) {
+              console.log(item, index);
+              // add feature layers
+              const fl = new FeatureLayer({
+                portalItem: {  // autocasts as esri/portal/PortalItem
+                  id: item
+                }
+              });
+              map.add(fl);  // adds the layer to the map
+
+              var legend = new Legend({
+                view: view,
+                layerInfos: [{
+                  layer: item,
+                  title: "Legend"
+                }]
+              });
+              view.ui.add(legend, "bottom-right");
+            });
+=======
+            });
+            map.add(pois);  // adds the layer to the map
+
+            // Check Cal arcgis layers https://cal.maps.arcgis.com/home/content.html?view=table&sortOrder=desc&sortField=modified#groups
+            const featurelayers = ['62ddd40455f440468d7f698fd12b814f', 'b5210a70ab7043aead0da602e527dfe3'];
+            //
+            // const fl = new FeatureLayer({
+            //   portalItem: {  // autocasts as esri/portal/PortalItem
+            //     id: "cd0514b3f1834f2c96321d62ea8a59e9"
+            //   }
+            // });
+            // map.add(fl);  // adds the layer to the map
+
+            featurelayers.forEach(function (item, index) {
+              console.log(item, index);
+              // add feature layers
+              const fl = new FeatureLayer({
+                portalItem: {  // autocasts as esri/portal/PortalItem
+                  id: item
+                }
+              });
+              map.add(fl);  // adds the layer to the map
+
+              var legend = new Legend({
+                view: view,
+                layerInfos: [{
+                  layer: item,
+                  title: "Legend"
+                }]
+              });
+              view.ui.add(legend, "bottom-right");
+            });
+>>>>>>> 5b6a5869d455ebe0cc9d665adc785efb2b6fa7e1
+
+
+
+            //
+            // const berkeleyChargingStations = new FeatureLayer({
+            //   portalItem: {  // autocasts as esri/portal/PortalItem
+            //     id: "0028ee20a0844a01b6f4f7c94f315caf"
+            //   }
+            // });
+            // map.add(berkeleyChargingStations);  // adds the layer to the map
+            //
+            // const pois = new FeatureLayer({
+            //   portalItem: {  // autocasts as esri/portal/PortalItem
+            //     id: "f5c50f7fbd1647dab23cee840b73817d"
+            //   }
+            // });
+            // map.add(pois);  // adds the layer to the map
 
             view.ui.add(sketch, "top-right");
 
@@ -250,6 +183,7 @@ require(["esri/widgets/Sketch",
                 //#74 B0 b9 = blue; F0fa0C = yello
                 var low_gradient = [116,176,185]  //#74B0b9 = blue
                 var high_gradient = [240,250,12]  //#F0fa0C = yello
+                console.log('Utililzation Rate: ', String(data['utilization-rate']));
                 color = pickHex(low_gradient, high_gradient, data['utilization-rate']);
               });
             });
@@ -268,10 +202,12 @@ require(["esri/widgets/Sketch",
                 };
               }
             });
-
           });
 </script>
+
 
 <div class="embed-container">
   <div id="viewDiv"></div>
 </div>
+
+{% endblock %}
