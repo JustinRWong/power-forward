@@ -6,6 +6,7 @@ from urllib.parse import urlencode
 import random
 
 from models.shared import *
+from engine.predictors import apply_knn_weekhour_model
 # from models.saferproxyfix import SaferProxyFix
 
 def validate_PF_API_token(headers):
@@ -102,3 +103,17 @@ def collect_suggestion(city, state, email):
 
 def predict_utilization_rate(lat, long):
     return random.random()
+
+def predict_week_timeseries_utilization_rate(input_dict):
+    order = ['lodging', 'supermarket', 'pharmacy', 'park', 'restaurant',
+       'clothing_store', 'store', 'school', 'gym', 'library',
+       'local_government_office', 'doctor', 'stadium', 'museum', 'church',
+       'synagogue']
+    x_vector = []
+    for k in order:
+        x_vector.append(input_dict[k])
+
+    time, rates = apply_knn_weekhour_model(x_vector)
+    print(time, rates)
+    
+    return {"ur": [{'time':t, 'rate':r} for t, r in zip(time, rates)] }

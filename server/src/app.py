@@ -235,15 +235,22 @@ def simulate():
         form_dict = request.form
         sanitized_dict = {}
         for k, v in form_dict.items():
-            sanitized_dict[k] = int(v)
+            print("KEY: ", k)
+            delimiter = ['Number', 'Range']
+            for d in delimiter:
+                if d in k:
+                    cutoff_idx = len(d)
+                    print(k[:-cutoff_idx])
+                    stored_k = k[:-cutoff_idx]
+                    sanitized_dict[stored_k] = int(v)
 
         print(type(sanitized_dict), sanitized_dict)
-        time = [i for i in range(168)]
-        import random
-        rates = [random.random() for i in range(168)]
+        # time = [i for i in range(168)]
+        # import random
+        # rates = [random.random() for i in range(168)]
 
-        
-        data = {"ur": [{'time':t, 'rate':r} for t, r in zip(time, rates)] }
+        data = predict_week_timeseries_utilization_rate(sanitized_dict)
+        # data = {"ur": [{'time':t, 'rate':r} for t, r in zip(time, rates)] }
 
         # response = app.response_class(
         #     response=json.dumps(data),
