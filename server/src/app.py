@@ -45,6 +45,7 @@ logo = img(src='https://power-forward.web.app/images/PowerForward_icon.png', wid
 topbar = Navbar(View(logo, 'index'),
                 View('Home', 'index'),
                 View('Map', 'map'),
+                View('Simulate', 'simulate'),
                 View('Charging Station Map', 'display_charging_station_map'),
                 View('Utilization Rates Map', 'display_utilization_map'),
                 View('Team', 'display_team')
@@ -189,8 +190,8 @@ def discord():
         send_to_discord(payload)
         return "pshed"
 
-@app.route("/")
-def home():
+@app.route("/simulate", methods=['GET', 'POST'])
+def simulate():
     data  = [
         ("01-01-2020", 1597),
         ("02-01-2020", 1456),
@@ -204,7 +205,38 @@ def home():
     ]
     labels = [row[0] for row in data]
     values = [row[1] for row in data]
-    return render_template("graph.html", labels=labels, values=values)
+
+    pois_dict = {
+            'lodging': {"label": "Lodging", "max_val":20},
+            'supermarket': {"label": "Supermarket", "max_val":20},
+            'pharmacy': {"label": "Pharmacy", "max_val":20},
+            'park': {"label": "Park", "max_val":20},
+            'restaurant': {"label": "Restaurant", "max_val":20},
+            'clothing_store': {"label": "Clothing Store", "max_val":20},
+            'store': {"label": "Store", "max_val":20},
+            'school': {"label": "School", "max_val":20},
+            'gym': {"label": "Gym", "max_val":20},
+            'library': {"label": "Library", "max_val":20},
+            'local_government_office': {"label": "Local Government Office", "max_val":20},
+            'doctor': {"label": "Doctor", "max_val":20},
+            'stadium': {"label": "Stadium", "max_val":20},
+            'museum': {"label": "Museum", "max_val":20},
+            'church': {"label": "Church", "max_val":20},
+            'synagogue': {"label": "Synagogue", "max_val":20}
+           }
+
+    if request.method == 'GET':
+        return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
+    else:
+        print('WE GOT POST')
+        ## Query parameter argumeents
+        form_dict = request.form
+        sanitized_dict = {}
+        for k, v in form_dict.items():
+            sanitized_dict[k] = int(v)
+
+        print(type(sanitized_dict), sanitized_dict)
+        return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
 
 
 '''
