@@ -1,0 +1,124 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<script src ="https://cdn.jsdelivr.net/npm/chart.js02.9.4/dist/Chart.min.js"></script>
+
+<style type="text/css" media="screen">
+
+table{
+border-collapse:collapse;
+border:1px solid #FF0000;
+}
+
+table td{
+border:1px solid #FF0000;
+}
+table input[type="submit"] {
+    display: block;
+    margin: 0 auto;
+}
+
+.slidecontainer {
+  margin: auto;
+  width: 100%;
+  border: 3px solid green;
+  padding: 10px;
+}
+
+.inputBox {
+  border: 2px solid gray;
+  border-radius: 4px;
+}
+
+.central {
+  paddding-left:45%;
+  /* margin: 0;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
+}
+
+</style>
+<div class="container">
+  <form action="/simulate" method = "post">
+    <div class='row'>
+      <h2>Simulate Weekly Utilization Rates by Modifying Surrounding Points of Interests</h2>
+      <p>Feel free to adjust the nearby points of interest to see how utilization rate changes throughout the week based on the surrounding area.</p>
+
+      <h4>Directions</h4>
+      <p>1. Adjust the different points of interests using the slider or text directly</p>
+      <p>2. Press <input type="submit" value="Simulate!"/></p>
+    </div>
+
+    <table width="100%" class='border'>
+      <col style="width:10%">
+    	<col style="width:30%">
+      <thead>
+        <td>
+          <h4>Number of Nearby Points of Interests</h4>
+        </td>
+        <td>
+          <h4>Projected Weekly Utilization Rate Timeseries</h4>
+        </td>
+      </thead>
+    <tbody>
+
+
+      <tr>
+        <td>
+          {% for poi, poi_dict in pois.items() %}
+              <div class="slidecontainer">
+                <label for="{{poi}}">
+                  {{poi_dict["label"]}}: <input type="number" class='inputBox' name="{{poi}}Number" min="0" max="20" value="10" oninput="this.form.{{poi}}Range.value=this.value" />
+                </label>
+
+                <input type="range" id="{{poi}}" name="{{poi}}Range" min="0" value="10" max="{{poi_dict['max_val']}}" step="1" oninput="this.form.{{poi}}Number.value=this.value">
+              </div>
+          {% endfor %}
+        </td>
+
+        <td>
+          dads
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</form>
+<!--
+  <div class='row '>
+
+    <div class='col-9'>
+      <canvas id="lineChart" width="900" height="400"></canvas>
+      <script>
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var lineChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: {{labels | safe}}
+            datasets: [
+            {
+              label: "Utilization Rates",
+              data: {{values | safe}},
+              fill: false,
+              borderColor: "rgb(75, 192, 192)",
+              lineTension: 0.1
+            }
+            ]
+          },
+          options: {
+            responsive:false
+          }
+        });
+      </script>
+    </div>
+  </div> -->
+</div>
+
+{% endblock %}
