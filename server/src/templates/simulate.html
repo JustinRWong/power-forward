@@ -4,18 +4,18 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src ="https://cdn.jsdelivr.net/npm/chart.js02.9.4/dist/Chart.min.js"></script>
 
 <style type="text/css" media="screen">
 
 table{
 border-collapse:collapse;
-border:1px solid #FF0000;
+/* border:1px solid #FF0000; */
 }
 
-table td{
-border:1px solid #FF0000;
+td {
+border:1px solid #D2D2D2;
 }
 table input[type="submit"] {
     display: block;
@@ -25,7 +25,7 @@ table input[type="submit"] {
 .slidecontainer {
   margin: auto;
   width: 100%;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   padding: 10px;
 }
 
@@ -43,21 +43,60 @@ table input[type="submit"] {
   transform: translate(-50%, -50%); */
 }
 
+.simulate {
+  display:inline-block;
+   padding:0.3em 1.2em;
+   margin:0 0.3em 0.3em 0;
+   border-radius:2em;
+   box-sizing: border-box;
+   text-decoration:none;
+   font-family:'Roboto',sans-serif;
+   font-weight:300;
+   color:#FFFFFF;
+   background-color:#4eb5f1;
+   text-align:center;
+   transition: all 0.2s;
+  !important;
+}
+.simulate:hover {
+  background-color:#4095c6;
+}
 </style>
+
+<script>
+function showDefaultText(chart, text){
+
+   var isEmpty = !(chart.options.data[0].dataPoints && chart.options.data[0].dataPoints.length > 0);
+
+   if(!chart.options.subtitles)
+   	(chart.options.subtitles = []);
+
+   if(isEmpty)
+   	chart.options.subtitles.push({
+     text : text,
+     verticalAlign : 'center',
+   });
+   else
+   	(chart.options.subtitles = []);
+ }
+</script>
+
+
 <div class="container">
-  <form action="/simulate" method = "post">
+  <p id='pb'></p>
+  <form id="simulate_form">
     <div class='row'>
       <h2>Simulate Weekly Utilization Rates by Modifying Surrounding Points of Interests</h2>
       <p>Feel free to adjust the nearby points of interest to see how utilization rate changes throughout the week based on the surrounding area.</p>
 
       <h4>Directions</h4>
       <p>1. Adjust the different points of interests using the slider or text directly</p>
-      <p>2. Press <input type="submit" value="Simulate!"/></p>
+      <p>2. Press <input class='simulate' type="submit" value="Simulate!"/></p>
     </div>
 
     <table width="100%" class='border'>
-      <col style="width:10%">
-    	<col style="width:30%">
+      <col style="width:15%">
+    	<col style="width:85%">
       <thead>
         <td>
           <h4>Number of Nearby Points of Interests</h4>
@@ -74,7 +113,7 @@ table input[type="submit"] {
           {% for poi, poi_dict in pois.items() %}
               <div class="slidecontainer">
                 <label for="{{poi}}">
-                  {{poi_dict["label"]}}: <input type="number" class='inputBox' name="{{poi}}Number" min="0" max="20" value="10" oninput="this.form.{{poi}}Range.value=this.value" />
+                  <input type="number" class='inputBox' name="{{poi}}Number" min="0" max="20" value="10" oninput="this.form.{{poi}}Range.value=this.value" /> {{poi_dict["label"]}}
                 </label>
 
                 <input type="range" id="{{poi}}" name="{{poi}}Range" min="0" value="10" max="{{poi_dict['max_val']}}" step="1" oninput="this.form.{{poi}}Number.value=this.value">
@@ -83,7 +122,9 @@ table input[type="submit"] {
         </td>
 
         <td>
-          dads
+          <!-- <div class='container'> -->
+            <canvas id="timeseries_chart">SIMULATE TO GET STARTED</canvas>
+          <!-- </div> -->
         </td>
       </tr>
     </tbody>
@@ -120,5 +161,81 @@ table input[type="submit"] {
     </div>
   </div> -->
 </div>
+
+
+<script>
+let dates = [];
+let rates = [];
+
+const simulate_form = document.getElementById('simulate_form');
+
+simulate_form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  console.log('SUBMIT CLICKED');
+
+  const formdata = new FormData(this);
+
+  fetch("/simulate", {
+    method: "POST",
+    body: formdata
+  })
+  .then(response => response.json())
+  .then(data => {
+    data["ur"].forEach(o => {
+      dates.push(o.time);
+      rates.push(o.rate);
+    })
+
+    var ch = new Chart(document.getElementById('timeseries_chart'), {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [{
+            label: 'Projected Utilization Rate',
+            borderColor: 'green',
+            backgroundColor: 'green',
+            fill: 'false',
+            data: rates
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Utilization Rate Throughout Single Week'
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Utilization Rate'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time of Week (1=Monday, 7=Sunday)'
+            }
+          }],
+          x: {
+            ticks: {
+              // For a category axis, the val is the index so the lookup via getLabelForValue is needed
+              callback: function(val, index) {
+                // Hide the label of every 2nd dataset
+                return index % 24 === 0 ? this.getLabelForValue(val) : '';
+              },
+              color: 'red',
+            }
+          }
+        }
+      }
+    });
+
+    showDefaultText(ch, "Simulate to Get Started!");
+
+});
+  });
+</script>
 
 {% endblock %}

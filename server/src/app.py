@@ -10,6 +10,8 @@ import os
 import requests
 import yaml
 
+import time
+
 from gateway import *
 '''
 App setup
@@ -236,7 +238,20 @@ def simulate():
             sanitized_dict[k] = int(v)
 
         print(type(sanitized_dict), sanitized_dict)
-        return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
+        time = [i for i in range(168)]
+        import random
+        rates = [random.random() for i in range(168)]
+
+        
+        data = {"ur": [{'time':t, 'rate':r} for t, r in zip(time, rates)] }
+
+        # response = app.response_class(
+        #     response=json.dumps(data),
+        #     status=200,
+        #     mimetype='application/json'
+        # )
+        return jsonify(data)
+        # return render_template("simulate.html", title='Simulate', labels=labels, values=values, pois=pois_dict)
 
 
 '''
