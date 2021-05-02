@@ -50,7 +50,8 @@ topbar = Navbar(View(logo, 'index'),
                 View('Simulate', 'simulate'),
                 View('Charging Station Map', 'display_charging_station_map'),
                 View('Utilization Rates Map', 'display_utilization_map'),
-                View('Team', 'display_team')
+                View('Team', 'display_team'),
+                View('Contact Us', 'contact')
                 )
 ## 00FF87 neon green;; 40A025 dark green;; 0CC166
 # registers the "top" menubar
@@ -299,6 +300,37 @@ def suggest_city():
     success = collect_suggestion(city, state, email)
 
     return redirect(url_for('index'), )
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    response = {}
+    ## Handle GET requests
+    if request.method == 'GET':
+        return render_template('contact.html')
+    else:
+        ## Handle POST requetst
+        name  = request.form.get('Name', 'DEFAULT NAME')
+        sender_email = request.form.get('Email', 'DEFAULT EMAIL')
+        msg   = request.form.get('Message', 'DEFAULT Message')
+        print(name)
+        print(sender_email)
+        print(msg)
+        content = {
+            "Name": name,
+            "Email": sender_email,
+            "Message": msg
+        }
+        resp = handle_contact(content)
+        print(resp)
+        if resp == 200:
+            return render_template('contact-response.html', title="Contact", name=name)
+        else:
+            flash('Something went wrong! Try sending your message again.')
+            return render_template('contact.html',
+                                    title="Thank You!",
+                                    name=name,
+                                    email=sender_email,
+                                    msg=msg)
 
 
 # @app.route('/api/')

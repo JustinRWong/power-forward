@@ -6,7 +6,9 @@ from urllib.parse import urlencode
 import random
 
 from models.shared import *
-from engine.predictors import apply_knn_weekhour_model
+from engine.utils import stringify_dict
+from engine.predictors import apply_knn_weekhour_model, apply_single_location_predictor
+from engine.google_places_api import find_surrounding_places
 # from models.saferproxyfix import SaferProxyFix
 
 def validate_PF_API_token(headers):
@@ -102,7 +104,16 @@ def collect_suggestion(city, state, email):
     return True
 
 def predict_utilization_rate(lat, long):
-    return random.random()
+    poi_mapper = find_surrounding_places(lat, long)
+    x_vector = []
+    for v in poi_mapper.values():
+        x_vector.append(v)
+
+    print(x_vector)
+    predicted_rate = apply_single_location_predictor([x_vector])
+    print('PREDICTED RATE: ', predicted_rate, type(predicted_rate))
+    return predicted_rate[0]
+    # return random.random()
 
 def predict_week_timeseries_utilization_rate(input_dict):
     order = ['lodging', 'supermarket', 'pharmacy', 'park', 'restaurant',
@@ -117,3 +128,12 @@ def predict_week_timeseries_utilization_rate(input_dict):
     # print(time, rates)
 
     return {"ur": [{'time':t, 'rate':r} for t, r in zip(time, rates)] }
+
+def handle_contact(content):
+    content_str = stringify_dict(content, building_str="Contact Form Submitted!")
+    payload = {
+        'username': "Power Forward Hooker :)",
+        'content': content_str,
+    }
+    status_code = send_to_discord(payload)
+    return status_code
