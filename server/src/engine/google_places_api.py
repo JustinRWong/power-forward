@@ -1,7 +1,7 @@
-from engine.model.utils import flatten_json
-
-
-
+from engine.utils import flatten_json
+import googlemaps
+import time
+import pandas as pd
 
 def get_nearest_places(lat, long, GOOGLE_API_KEY, log=False, type_param = None, radius=500, keyw = None):
     '''
@@ -108,7 +108,7 @@ def X_matrix(lat, lon, api_key, types, radius):
   This function is limited to 60 results per API call. There are some categories that probably have more thatn 60 results in a certain radius
   '''
 
-
+  print('MAKING X MATRIX')
   # set of all  POI ids that have already come up in a search
   results_set = set()
 
@@ -125,10 +125,10 @@ def X_matrix(lat, lon, api_key, types, radius):
         if id not in results_set:
           types_count+=1
           results_set.add(id)
-        if id not in full_ids:
-          full_ids.add(id)
-          z = df[df['place_id']==id][['geometry_location_lat','geometry_location_lng','name','icon']]
-          final_df.append(list(z.iloc[0])+[t])
+        # if id not in full_ids:
+        #   full_ids.add(id)
+          # z = df[df['place_id']==id][['geometry_location_lat','geometry_location_lng','name','icon']]
+          # final_df.append(list(z.iloc[0])+[t])
     r_val += [types_count]
     print(t)
 
@@ -136,3 +136,18 @@ def X_matrix(lat, lon, api_key, types, radius):
   return r_val
 
 def find_surrounding_places(lat, long):
+    '''
+    Wrapper to generate the X matrix that finds the surrounding places of different points of Interests
+
+    Returns a dictionary that maps the types to the number of types that surround the lat, long input
+    '''
+    types = ['lodging', 'supermarket', 'pharmacy', 'park', 'restaurant',
+       'clothing_store', 'store', 'school', 'gym', 'library',
+       'local_government_office', 'doctor', 'stadium', 'museum', 'church',
+       'synagogue']
+    GOOGLE_API_KEY = 'AIzaSyCOfMy3PtzA64w_cU4YEtAxPa_gXCSnt_k'#os.environ.get('GOOGLE_API_KEY')
+    x_vector = X_matrix(lat, long, GOOGLE_API_KEY, types, 500)
+    returned_dict = {}
+    for t, v in zip(types, x_vector):
+        returned_dict[t] = v
+    return returned_dict

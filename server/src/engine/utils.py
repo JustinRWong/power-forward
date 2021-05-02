@@ -19,3 +19,8 @@ def flatten_json(y):
 
     flatten(y)
     return out
+
+def stringify_dict(dictlike, building_str=''):
+    for k, v in dictlike.items():
+        building_str = building_str + "\n  > {k}: {v}".format(k=k, v=v)
+    return building_str

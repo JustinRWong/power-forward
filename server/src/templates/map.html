@@ -10,8 +10,16 @@
     #viewDiv {
     padding: 0;
     margin: 0;
-    height: 100%;
+    height: 80%;
     width: 100%;
+    }
+
+
+    #location, #ur {
+      border:1px solid #D2D2D2;
+    }
+    #location {
+      width: 300px;
     }
 </style>
 
@@ -137,7 +145,8 @@ require(["esri/widgets/Sketch",
                 'long': evt.graphic.geometry.longitude
               };
 
-
+              document.getElementById('location').value = "("+ String(payload['lat']) + ", " + String(payload['long']) + ")";
+              document.getElementById('ur').value = "Calculating...";
               fetch("/map" + "?lat=" + String(evt.graphic.geometry.latitude) +"&long=" +String(evt.graphic.geometry.longitude), {
                 method: "POST",
                 body: JSON.stringify(payload)
@@ -148,6 +157,8 @@ require(["esri/widgets/Sketch",
                 var low_gradient = [116,176,185]  //#74B0b9 = blue
                 var high_gradient = [240,250,12]  //#F0fa0C = yello
                 console.log('Utililzation Rate: ', String(data['utilization-rate']));
+
+                document.getElementById('ur').value = data['utilization-rate'];
                 color = pickHex(low_gradient, high_gradient, data['utilization-rate']);
               });
             });
@@ -181,6 +192,16 @@ require(["esri/widgets/Sketch",
 </div> -->
 
 <div class="embed-container">
+  <!-- <div class='row'> -->
+  <div class='container'>
+    <h2>Drop a Pin to Discover the Utilization Rate</h2>
+
+    <p>Click the pin on the upper right corner of the map. You may need to wait a moment for us to do some thinking before seeing the utilization rate!<p>
+
+    <h5>Location: <input id='location' readonly></input></h5>
+    <h5>Utilization Rate: <input id='ur' readonly></input></h5>
+  </div>
+  <!-- </div> -->
   <div id="viewDiv"></div>
 </div>
 
