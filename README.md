@@ -74,7 +74,7 @@ Deployed to google cloud engine.
 Deployed to firebase hosting.
 
 ### Live (Production)
-[Visit our app!](powerforward.tech)
+[Visit our website!](https://powerforward.tech/)
 
 
 ### Analytics
