@@ -27,6 +27,10 @@ function pickHex(color1, color2, weight) {
     return rgb;
 }
 
+function showUR() {
+  document.getElementById('display').value = data['utilization-rate'];
+}
+
 require(["esri/widgets/Sketch",
           "esri/Map",
           "esri/layers/GraphicsLayer",
@@ -165,6 +169,16 @@ require(["esri/widgets/Sketch",
           });
 </script>
 
+<!-- <div class='container'>
+  <form>
+    <label><b>Utilization Rate Predictor</b></label>
+    <input type="text" name="message">
+  </form>
+
+  <input type="text" onclick="showUR();"><br/>
+  <label> The calculated utilization rate: </label>
+  <p><span id='display'></span></p>
+</div> -->
 
 <div class="embed-container">
   <div id="viewDiv"></div>
