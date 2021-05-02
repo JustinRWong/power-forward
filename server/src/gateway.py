@@ -108,9 +108,11 @@ def predict_utilization_rate(lat, long):
     x_vector = []
     for v in poi_mapper.values():
         x_vector.append(v)
-    predicted_rate = apply_single_location_predictor(x_vector)
+
+    print(x_vector)
+    predicted_rate = apply_single_location_predictor([x_vector])
     print('PREDICTED RATE: ', predicted_rate, type(predicted_rate))
-    return predicted_rate
+    return predicted_rate[0]
     # return random.random()
 
 def predict_week_timeseries_utilization_rate(input_dict):
