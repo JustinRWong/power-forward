@@ -11,12 +11,8 @@ It utilizes selenium and chromedriver to loop through the results of a Google Ma
 This data was ultimately used to consider utilization rates in our final model.
 
 ### Modeling Timeseries- Utilization Rates -
-This notebook contains multiple models analyzing utilization rates as a time series.
-
-### Reading Utilization Rates Combining Collections -
-A formalized compilation of our utilization rate data. This notebook pulls from mongoDB, where we have stored the scraped data, and was used to geoencode and 
-analyze the scraped data.
+ A formalized compilation of our utilization rate data. This notebook pulls from different collections in our mongoDB database, where we stored the scraped data. Additionally, data transformations were made such that addresses, time of measurement, and geocoding columns were created. There was an uneven distribution of measurements for the charging stations and chargers representing the same location had multiple addresses. This notebook deals with this address mapping issue. Data was grouped at different granularities to prepare data for time series data. 
 
 ### X-matrix-gen -
-This notebook is responsible for our x-matrix generation. Given a list of POIs, the x matrix returned features a list of integers representing how many of the 
+This notebook is responsible for our x-matrix generation. Given a list of POIs and a set of (lat, long) coordinates, the x matrix returned features a list of integers representing how many of the 
 specified POIs are within the designated radius of a set of coordinates. 
