@@ -55,7 +55,7 @@ chmod +x start_local.sh                     # give execution permimssions to the
 Two directories in this app are deployed separately.
 
 `server`
-The actual web server that provides the different functionalities on the web app. This is deployed on google cloud engine, using Google Cloud Container Registry and Google Cloud Run. There iss also a mapped domain to present our domain name to the app running on Cloud Run: https://powerforward.tech/
+The actual web server that provides the different functionalities on the web app. This is deployed on google cloud engine, using Google Cloud Container Registry and Google Cloud Run. There is also a mapped domain to point our domain name to the app running on Cloud Run: https://powerforward.tech/
 
 
 `static`
