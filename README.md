@@ -58,6 +58,45 @@ Deployed to google cloud engine: https://powerforward.tech/
 `static`
 Deployed to firebase hosting: https://power-forward.web.app/
 
+
+├── README.md
+├── notebooks
+├── server
+│   ├── requirements.txt
+│   └── Dockerfile
+│   └── src
+│      └── app.py
+│      └── gateway.py
+│      └── engine
+│         └── models
+│            └── Forest_Model.sav
+│            └── knn_weekhour.sav
+│            └── y_full.csv
+│            └── x_full.csv
+│         └── google_places_api.py
+│         └── predictors.py
+│         └── utils.py
+│      └── templates
+│         └── base.html
+│         └── charging-station-map.html
+│         └── contact-response.html
+│         └── contact.html
+│         └── discord.html
+│         └── healthcheck.html
+│         └── index.html
+│         └── map.html
+│         └── navbar.html
+│         └── simulate.html
+│         └── style.html
+│         └── team.html
+│         └── utilization-map.html
+│      └── models
+│         └── shared.py
+├── static
+│   ├── images
+└── start_local.sh
+└── build_and_deploy.sh
+
 ### Live (Production)
 [Visit our website!](https://powerforward.tech/)
 
