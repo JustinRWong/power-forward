@@ -33,45 +33,30 @@ About Us: Power Forward is a team of data scientists and engineers passionate ab
 ### Contributors
 Casey McGonigle, Ivy Bragin, Mickey Piekarski, Justin Wong,  Sammy Sheldon, Seth Bloomer
 
+# Local Development
+
 ## Starting the Virtual Environment
 
 Follow this as a reference: https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/
 
+## Starting the App with a Virtual Environment
 
 To get started with running the venv for Power Forward, run the following command:
 ```
-virtualenv power-forward-app-env
-source power-forward-app-env/bin/activate
-pip install -r requirements.txt
-chmod +x start_local.sh
-./start_local.sh
+virtualenv power-forward-app-env            # creates a new virtual environmment called power-forward-app-env 
+source power-forward-app-env/bin/activate   # starts the new environment
+pip install -r requirements.txt             # install the requirements
+chmod +x start_local.sh                     # give execution permimssions to the start_local.sh file
+./start_local.sh                            # start the flask app and look at localhost:5000
 ```
-
-
-## Starting the app
-
-### Locally
-```
-source power-forward-app-env/bin/activate
-
-ls
-Procfile		__pycache__		power-forward-app-env	src			static
-README.md		app.py			requirements.txt	start_local.sh		templates
-
-pip install requirements.txt
-
-./start_local.sh
-```
-
-
 
 ### App structure
 `server`
-Deployed to google cloud engine.
+Deployed to google cloud engine: https://powerforward.tech/
 
 
 `static`
-Deployed to firebase hosting.
+Deployed to firebase hosting: https://power-forward.web.app/
 
 ### Live (Production)
 [Visit our website!](https://powerforward.tech/)
