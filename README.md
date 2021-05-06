@@ -51,13 +51,15 @@ chmod +x start_local.sh                     # give execution permimssions to the
 ```
 
 ### App structure
+
+Two directories in this app are deployed separately.
+
 `server`
-Deployed to google cloud engine: https://powerforward.tech/
+The actual web server that provides the different functionalities on the web app. This is deployed on google cloud engine, using Google Cloud Container Registry and Google Cloud Run. There iss also a mapped domain to present our domain name to the app running on Cloud Run: https://powerforward.tech/
 
 
 `static`
-Deployed to firebase hosting: https://power-forward.web.app/
-
+These are static assets, such as css, javascript, and images. These simply ensure that the flask app is ligher and faster to deploy. Static assets are hosted usiing firebase hostnig at: https://power-forward.web.app/
 
 ```
 ├── README.md
@@ -99,12 +101,24 @@ Deployed to firebase hosting: https://power-forward.web.app/
 └── build_and_deploy.sh
 ```
 
+#### App Architecture: Key Files/Directories
+- `server/src/app.py`
+The primary route handler that is the file for all public entrypoints.
+
+- `server/src/gateway.py`
+Gateway that separates function logic from the web server. This file couples `app.py` to organize the functions that are called; `app.py` handles all the routes and entrypoints for the app, while `gateway.py` dictates how to handle the logic to respond to the corresponding route.
+
+- `server/src/engine/google_places_api.py`
+Contains functions used by the gateway file that integrate with the Google Places API.
+
+- `server/src/engine/predictors.py`
+Contains functions to use the machine learning models developed by PowerForward
+
+- `server/src/templates`
+Contains the flask templates for the different views.
+
 ### Live (Production)
 [Visit our website!](https://powerforward.tech/)
-
-
-### Analytics
-We have analytics such that when any page is loaded, we get ip address, the url visited, and device information sent to our discord channel. This is done in the `src/gateway.py: analytics(req)`
 
 ## References
 - https://medium.com/innovation-incubator/flask-before-and-after-request-decorators-e639b06c2128
