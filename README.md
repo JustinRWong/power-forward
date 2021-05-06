@@ -59,7 +59,7 @@ Deployed to google cloud engine: https://powerforward.tech/
 Deployed to firebase hosting: https://power-forward.web.app/
 
 
-'''
+```
 ├── README.md
 ├── notebooks
 ├── server
@@ -97,7 +97,7 @@ Deployed to firebase hosting: https://power-forward.web.app/
 │   ├── images
 └── start_local.sh
 └── build_and_deploy.sh
-'''
+```
 
 ### Live (Production)
 [Visit our website!](https://powerforward.tech/)
