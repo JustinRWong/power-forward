@@ -117,7 +117,7 @@ Contains functions to use the machine learning models developed by PowerForward
 - `server/src/templates`
 Contains the flask templates for the different views.
 
-<img src="static/images/Web_App_Architecture.png"></img>
+<img src="static/images/Web_App_Architecture.png?.png"></img>
 
 ### Live (Production)
 [Visit our website!](https://powerforward.tech/)
