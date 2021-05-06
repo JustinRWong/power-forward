@@ -33,14 +33,17 @@ About Us: Power Forward is a team of data scientists and engineers passionate ab
 ### Contributors
 Casey McGonigle, Ivy Bragin, Mickey Piekarski, Justin Wong,  Sammy Sheldon, Seth Bloomer
 
-# Statistical/Machine Learning Models
+##  Statistical/Machine Learning Models
 The `notebooks` directory is where all significantl moddel development can be found. We developed two types of Utilization Rate Prediction models:
+
 A: single output for a single charging stations.
+
 B: multiple output for single charging station for different times of the day.
 
 We also implemented a Charger Type (in kWh) Recommendation Model that predicts the charging station based on surrounding locations.
 
-# Local Development
+
+## Local Web App Development
 
 ## Starting the Virtual Environment
 
