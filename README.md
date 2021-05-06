@@ -45,11 +45,8 @@ We also implemented a Charger Type (in kWh) Recommendation Model that predicts t
 
 ## Local Web App Development
 
-## Starting the Virtual Environment
-
-Follow this as a reference: https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/
-
-## Starting the App with a Virtual Environment
+### Starting the App with a Virtual Environment
+Follow this as a reference on virtual environments: https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/26/python-virtual-env/
 
 To get started with running the venv for Power Forward, run the following command:
 ```
