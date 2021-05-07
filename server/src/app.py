@@ -306,7 +306,7 @@ def contact():
     response = {}
     ## Handle GET requests
     if request.method == 'GET':
-        return render_template('contact.html')
+        return render_template('contact.html', title='Contact Us')
     else:
         ## Handle POST requetst
         name  = request.form.get('Name', 'DEFAULT NAME')
@@ -323,11 +323,11 @@ def contact():
         resp = handle_contact(content)
         print(resp)
         if resp == 200:
-            return render_template('contact-response.html', title="Contact", name=name)
+            return render_template('contact-response.html', title="Thank You!", name=name)
         else:
             flash('Something went wrong! Try sending your message again.')
             return render_template('contact.html',
-                                    title="Thank You!",
+                                    title="Contact Us",
                                     name=name,
                                     email=sender_email,
                                     msg=msg)
